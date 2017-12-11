@@ -8,4 +8,10 @@ router.post('/', JobController.create);
 //Define the GET Endpoint
 router.get('/:id', JobController.findOne);
 
+//Define the PUT /:id endpoint
+router.put('/:id', JobController.update);
+
+//Define the DELETE /:id endpoint
+router.delete('/:id', JobController.delete);
+
 module.exports = router;

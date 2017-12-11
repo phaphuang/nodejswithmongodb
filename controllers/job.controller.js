@@ -91,5 +91,55 @@ module.exports = {
       //send the job as response
       return res.status(200).json(job);
     })
+  },
+  update(req, res){
+    //get id from req params
+    let id = req.params.id;
+    //get title from the req body
+    let title = req.body.title;
+    //get the description from the req body
+    let description = req.body.description;
+    //get the duration from request body
+    let duration = req.body.duration;
+
+    //create jobAttributes object
+    let jobAttributes = {};
+    //if user wants to update the title
+    if(title){
+      //then add title to jobAttributes
+      jobAttributes.title = title;
+    }
+
+    if(description){
+      //if user wants to update the description
+      //then add description to jobAttributes
+      jobAttributes.description = description;
+    }
+
+    if(duration){
+      jobAttributes.duration = duration;
+    }
+
+    //call the update method to edit the job
+    Job.update({_id: id}, jobAttributes, (err, result) => {
+      if(err){
+        return res.status(500).send(err);
+      }
+
+      return res.status(200).json({msg: `job is updated with id ${id}`});
+    })
+  },
+  delete(req, res){
+    //get the id from req params
+    let id = req.params.id;
+    //call finddByIdAndRemove method
+    Job.findByIdAndRemove(id, err => {
+      //if error comes then send  500 status
+      if(err){
+        return res.status(500).send(err);
+      }
+
+      return res.status(200).json({msg: `job is deleted with id ${id}`});
+    })
   }
-}
+};
